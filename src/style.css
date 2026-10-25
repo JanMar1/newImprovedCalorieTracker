@@ -23,9 +23,8 @@ input, button {
     flex: 1;
     background-color: #303030;
     color: #f3f4f6;
-    border: none;
-    border-radius: 10px;
-    border: 2px solid #3c3c3c;
+    border-radius: 32px;
+    border: 1px solid #393939;
     padding: 2px 12px;
 }
 
@@ -51,6 +50,7 @@ input, button {
     padding: 8px 24px;
     text-align: center;
     cursor: pointer;
+    margin-top: 4px;
 }
 
 .card{
@@ -70,7 +70,7 @@ input, button {
 }
 
 @keyframes shake {
-    0%, 100% { transform: translateX(); }
+    0%, 100% { transform: translateX(0); }
     25%      { transform: translateX(-13px); }
     75%      { transform: translateX(13px); }
 }
@@ -93,6 +93,7 @@ input, button {
     align-items: center;
     gap: 12px;
     padding: 12px 8px;
+    animation: ease-out;
 }
 
 #entry_list li + li {
@@ -103,6 +104,11 @@ input, button {
     flex: 1;
     min-width: 0;
     color: #E0E0E0
+}
+
+.entry-note{
+    color: #888;
+    font-size: 16px;
 }
 
 .delete  {
@@ -117,5 +123,24 @@ input, button {
     display: flex;
     flex-direction: column;
     position: relative
+}
+
+.empty-text {
+    display: grid;
+    place-content: center;
+    padding: 2rem 1rem;
+    color: #888;
+    animation: slideIn 0.25s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 

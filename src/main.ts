@@ -21,6 +21,21 @@ input_note.addEventListener('animationend', () => {
     input_note.classList.remove('shake')
 })
 
+entriesList.addEventListener('click',(event) => {
+    const button = (event.target as HTMLElement).closest('button')
+    if (!button) {
+        console.log("not delete button")
+        return
+    }
+
+    console.log("deleted")
+
+    const id = button.dataset.id
+    entries = entries.filter(e => e.id !== id)
+    saveEntries(entries)
+    render()
+})
+
 
 addButton.addEventListener('click', () => {
     const note = input_note.value.trim()
@@ -51,6 +66,18 @@ addButton.addEventListener('click', () => {
 })
 
 function render(){
+    if (!document.startViewTransition) {
+        updateDOM()
+        return
+    }
+
+    // 2. Wrap the DOM update in startViewTransition
+    document.startViewTransition(() => {
+        updateDOM()
+    })
+}
+
+function updateDOM(){
     entries = loadEntries()
     //zeigt Kcal und protein für heute an
     const timeToday = new Date().setHours(0, 0, 0, 0)
@@ -72,7 +99,15 @@ function render(){
     entriesList.replaceChildren()
 
     //TODO: später Meldung anzeigen: "Liste leer"
-    if (entriesTodaySortedByDate.length == 0){}
+    if (entriesTodaySortedByDate.length === 0){
+        console.log("leer")
+        const emptyMessage = document.createElement('div')
+        emptyMessage.className = 'empty-text'
+        emptyMessage.textContent = "No entries for today"
+
+        entriesList.appendChild(emptyMessage)
+        return
+    }
 
     for (const e of entriesTodaySortedByDate){
         const li = document.createElement('li')
