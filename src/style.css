@@ -1,5 +1,5 @@
 #app {
-    padding: 16px 16px 0px;
+    padding: 16px 16px 0;
     margin: 0 auto;
     max-width: 480px;
     box-sizing: border-box;
@@ -23,7 +23,7 @@
 
 body {
     background-color: #101010;
-    color: #f3f4f6;
+    color: #f0f0f0;
     font-size: 20px;
     height: 100dvh;
     font-family: system-ui, sans-serif;
@@ -47,7 +47,7 @@ body {
     display: flex;
     justify-content: space-around;
     flex: 0 0 auto;
-    background-color: #151515;
+    background-color: #181818;
     padding:calc(12px + env(safe-area-inset-bottom));
 }
 
@@ -59,7 +59,7 @@ input {
     font: inherit;
     flex: 1;
     background-color: #303030;
-    color: #f3f4f6;
+    color: #f0f0f0;
     border-radius: 32px;
     border: 1px solid #393939;
     padding: 4px 12px;
@@ -107,6 +107,12 @@ input {
 .divider {
     width: 1px;
     height: 40px;
+    background-color: #303030;
+}
+
+.divider_nav {
+    width: 100%;
+    height: 1px;
     background-color: #303030;
 }
 
@@ -222,4 +228,10 @@ input {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.nav-button{
+    background: none;
+    border: none;
+    color: #f0f0f0
 }
