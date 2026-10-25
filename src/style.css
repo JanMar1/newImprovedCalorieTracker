@@ -48,7 +48,7 @@ body {
     justify-content: space-around;
     flex: 0 0 auto;
     background-color: #181818;
-    padding:calc(12px + env(safe-area-inset-bottom));
+    padding:12px;
 }
 
 
