@@ -1,0 +1,121 @@
+#app {
+    padding: 16px;
+    margin: 0 auto;
+    max-width: 480px;
+    height: 100dvh;
+    flex-direction: column;
+    display: flex;
+    box-sizing: border-box
+}
+
+body {
+    background-color: #101010;
+    color: #f3f4f6;
+    font-size: 20px;
+    font-family: system-ui, sans-serif;
+    margin: 0
+}
+
+
+
+input, button {
+    font: inherit;
+    flex: 1;
+    background-color: #303030;
+    color: #f3f4f6;
+    border: none;
+    border-radius: 10px;
+    border: 2px solid #3c3c3c;
+    padding: 2px 12px;
+}
+
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.row label {
+    width: 6rem;
+    flex-shrink: 0
+}
+
+.row input{
+    flex: 1;
+    min-width:0;
+}
+
+.button {
+    padding: 8px 24px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.card{
+    border: 2px solid #303030;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background-color: #1d1d1d;
+}
+
+.card.list-card{
+    padding: 0 16px;
+}
+
+.invalid {
+    background-color: #681212;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(); }
+    25%      { transform: translateX(-13px); }
+    75%      { transform: translateX(13px); }
+}
+
+.shake {
+    animation: shake 0.2s;
+}
+
+#entry_list{
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    scrollbar-width: none;
+}
+
+#entry_list li{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 8px;
+}
+
+#entry_list li + li {
+    border-top: 1px solid #303030;
+ }
+
+.entry-text {
+    flex: 1;
+    min-width: 0;
+    color: #E0E0E0
+}
+
+.delete  {
+    flex: 0 0 auto;
+    background: none;
+    border: none
+}
+
+.list-card{
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative
+}
+

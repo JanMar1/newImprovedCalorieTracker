@@ -1,0 +1,108 @@
+import './style.css'
+import {loadEntries, type Entry, saveEntries} from "./storage.ts";
+
+let entries = loadEntries()
+
+let entriesToday: Entry[];
+
+//outputs
+const kcal_today = document.querySelector<HTMLSpanElement>('#today_kcal')!;
+const protein_today = document.querySelector<HTMLSpanElement>('#today_protein')!;
+
+//inputs
+const input_note = document.querySelector<HTMLInputElement>('#note')!;
+const input_calories = document.querySelector<HTMLInputElement>('#calories')!;
+const input_protein = document.querySelector<HTMLInputElement>('#protein')!;
+const addButton = document.querySelector<HTMLButtonElement>('#add_button')!
+const entriesList = document.querySelector<HTMLUListElement>('#entry_list')!
+
+//removes the shake effect, so it can shake again
+input_note.addEventListener('animationend', () => {
+    input_note.classList.remove('shake')
+})
+
+
+addButton.addEventListener('click', () => {
+    const note = input_note.value.trim()
+    const calories: number = Number(input_calories.value)
+    const protein: number = Number(input_protein.value)
+
+    if (note == ""){
+        input_note.classList.add('invalid')
+        input_note.classList.add('shake')
+        return;
+    }else{
+        input_note.classList.remove('invalid')
+    }
+
+
+    const newEntry: Entry = {
+        id: crypto.randomUUID(),
+        time: Date.now(),
+        calories: calories,
+        protein: protein,
+        note: note
+    }
+
+    console.log(newEntry)
+    entries.push(newEntry)
+    saveEntries(entries)
+    render()
+})
+
+function render(){
+    entries = loadEntries()
+    //zeigt Kcal und protein für heute an
+    const timeToday = new Date().setHours(0, 0, 0, 0)
+    entriesToday = entries.filter((entry: Entry) => entry.time >= timeToday);
+
+    const sumOfCaloriesToday: number = entriesToday.reduce(
+        (sum, entry) => sum  + entry.calories, 0
+    );
+    kcal_today.textContent = sumOfCaloriesToday.toString();
+    const sumOfProteinToday: number = entriesToday.reduce(
+        (sum, entry) => sum  + entry.protein, 0
+    );
+    protein_today.textContent = sumOfProteinToday.toString();
+
+
+    //LIST
+
+    const entriesTodaySortedByDate: Entry[] = entriesToday.toSorted((a, b) => b.time - a.time)
+    entriesList.replaceChildren()
+
+    //TODO: später Meldung anzeigen: "Liste leer"
+    if (entriesTodaySortedByDate.length == 0){}
+
+    for (const e of entriesTodaySortedByDate){
+        const li = document.createElement('li')
+        const text = document.createElement('div')
+        text.className = 'entry-text'
+
+
+        const main = document.createElement('div')
+        const time = new Date(e.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+
+        main.className = 'entry-main'
+        main.textContent = ` ${time}  · ${e.calories} kcal · ${e.protein} g protein  `
+
+        const sub = document.createElement('div')
+        sub.className = 'entry-note'
+        sub.textContent = e.note ? `${e.note}` : time
+
+        text.append(main, sub)
+
+        const del = document.createElement('button')
+        del.type = 'button'
+        del.className = 'delete'
+        del.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash preview-icon"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
+        del.dataset.id = e.id
+
+        del.setAttribute('aria-label', 'Delete entry')
+
+        li.append(text, del)
+        entriesList.appendChild(li)
+    }
+
+}
+render()
