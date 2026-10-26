@@ -16,7 +16,7 @@ const input_protein = document.querySelector<HTMLInputElement>('#protein')!;
 const addButton = document.querySelector<HTMLButtonElement>('#add_button')!
 const entriesList = document.querySelector<HTMLUListElement>('#entry_list')!
 const navBar = document.querySelector<HTMLElement>('#nav_bar')!
-
+const settings_btns =  document.querySelector<HTMLElement>('#settings_btns')!
 //removes the shake effect, so it can shake again
 input_note.addEventListener('animationend', () => {
     input_note.classList.remove('shake')
@@ -98,6 +98,20 @@ addButton.addEventListener('click', () => {
     entries.push(newEntry)
     saveEntries(entries)
     render()
+})
+
+settings_btns.addEventListener('click', (event)=>{
+    const button = (event.target as HTMLElement).closest('button')
+    if (!button) {
+        console.log("not settings button")
+        return
+    }
+    const selectedSettingsButton: string = button.dataset.screen ?? "";
+
+    if (selectedSettingsButton == 'export_btn'){
+        exportData()
+    }
+
 })
 
 function exportData(){
