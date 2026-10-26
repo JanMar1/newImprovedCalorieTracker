@@ -15,12 +15,15 @@ const input_calories = document.querySelector<HTMLInputElement>('#calories')!;
 const input_protein = document.querySelector<HTMLInputElement>('#protein')!;
 const addButton = document.querySelector<HTMLButtonElement>('#add_button')!
 const entriesList = document.querySelector<HTMLUListElement>('#entry_list')!
+const navBar = document.querySelector<HTMLElement>('#nav_bar')!
 
 //removes the shake effect, so it can shake again
 input_note.addEventListener('animationend', () => {
     input_note.classList.remove('shake')
 })
 
+
+//delete button of single entries
 entriesList.addEventListener('click',(event) => {
     const button = (event.target as HTMLElement).closest('button')
     if (!button) {
@@ -34,6 +37,38 @@ entriesList.addEventListener('click',(event) => {
     entries = entries.filter(e => e.id !== id)
     saveEntries(entries)
     render()
+})
+
+//buttons for changing the screen
+navBar.addEventListener('click', (event) => {
+    const button = (event.target as HTMLElement).closest('button')
+
+    if (!button) {
+        console.log("not nav_bar button")
+        return
+    }
+
+    console.log("changing screen")
+
+    //contains the id of the selected screen
+    const targetScreen: string = button.dataset.screen ?? "";
+
+
+
+    console.log(targetScreen)
+
+    //list of all screen ids
+    const screens = document.querySelectorAll<HTMLElement>('.screen')
+    const screenIds = Array.from(screens).map(screen => screen.id)
+
+    for (const id of screenIds){
+        if (id != targetScreen){
+            document.getElementById(id)!.hidden = true
+        }
+    }
+    document.getElementById(targetScreen)!.hidden = false
+
+
 })
 
 
@@ -64,6 +99,19 @@ addButton.addEventListener('click', () => {
     saveEntries(entries)
     render()
 })
+
+function exportData(){
+    const text = JSON.stringify(loadEntries(),null, 2)
+    const blob = new Blob([text], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+
+    const a = document.createElement('a')
+    a.href = url
+    const date = new Date().toISOString().slice(0, 10)   // "2026-10-26"
+    a.download = `calorie-tracker-${date}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+}
 
 function render(){
     if (!document.startViewTransition) {
