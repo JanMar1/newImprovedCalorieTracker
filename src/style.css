@@ -233,5 +233,6 @@ input {
 .nav-button{
     background: none;
     border: none;
-    color: #f0f0f0
+    color: #f0f0f0;
+    padding-bottom: env(safe-area-inset-bottom);
 }
