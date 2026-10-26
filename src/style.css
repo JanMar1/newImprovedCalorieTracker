@@ -131,6 +131,10 @@ input {
     padding: 2px 8px;
 }
 
+#add_button{
+    padding: 2px 32px;
+}
+
 .card{
     border: 1px solid #303030;
     border-radius: 12px;
@@ -233,7 +237,15 @@ input {
 }
 
 .settings_btn{
-    background: none;
     border: none;
     color: #f0f0f0;
+    text-align: center;
+    cursor: pointer;
+    font: inherit;
+    background-color: #303030;
+    border-radius: 32px;
+    padding: 2px 8px;
+    flex:1;
+    margin-left: 16px;
+    margin-right: 16px;
 }

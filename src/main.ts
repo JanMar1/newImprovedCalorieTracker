@@ -27,11 +27,9 @@ input_note.addEventListener('animationend', () => {
 entriesList.addEventListener('click',(event) => {
     const button = (event.target as HTMLElement).closest('button')
     if (!button) {
-        console.log("not delete button")
         return
     }
 
-    console.log("deleted")
 
     const id = button.dataset.id
     entries = entries.filter(e => e.id !== id)
@@ -44,18 +42,15 @@ navBar.addEventListener('click', (event) => {
     const button = (event.target as HTMLElement).closest('button')
 
     if (!button) {
-        console.log("not nav_bar button")
         return
     }
 
-    console.log("changing screen")
 
     //contains the id of the selected screen
     const targetScreen: string = button.dataset.screen ?? "";
 
 
 
-    console.log(targetScreen)
 
     //list of all screen ids
     const screens = document.querySelectorAll<HTMLElement>('.screen')
@@ -94,7 +89,6 @@ addButton.addEventListener('click', () => {
         note: note
     }
 
-    console.log(newEntry)
     entries.push(newEntry)
     saveEntries(entries)
     render()
@@ -103,12 +97,12 @@ addButton.addEventListener('click', () => {
 settings_btns.addEventListener('click', (event)=>{
     const button = (event.target as HTMLElement).closest('button')
     if (!button) {
-        console.log("not settings button")
         return
     }
-    const selectedSettingsButton: string = button.dataset.screen ?? "";
+    const selectedSettingsButton: string = button.dataset.setting ?? "";
 
     if (selectedSettingsButton == 'export_btn'){
+
         exportData()
     }
 
@@ -162,7 +156,7 @@ function updateDOM(){
 
     //TODO: später Meldung anzeigen: "Liste leer"
     if (entriesTodaySortedByDate.length === 0){
-        console.log("leer")
+
         const emptyMessage = document.createElement('div')
         emptyMessage.className = 'empty-text'
         emptyMessage.textContent = "No entries for today"
