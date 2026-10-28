@@ -19,6 +19,9 @@ const navBar = document.querySelector<HTMLElement>('#nav_bar')!
 const settings_btns =  document.querySelector<HTMLElement>('#settings_btns')!
 const daySelector = document.getElementById('calories_day_selector') as HTMLOutputElement | null;
 const changeDay = document.getElementById('changeCurrentDay') as HTMLOutputElement | null;
+const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+
+
 let dateOffset: number = 0;
 
 //removes the shake effect, so it can shake again
@@ -183,11 +186,16 @@ function updateDOM(){
     //update day selector text
 
     if (daySelector) {
-        daySelector.value = (date.toLocaleDateString('en-US', { weekday: 'long' })
-            + "  "
-            + date.getDate()).toString()
-            + "."
-            + (date.getMonth() + 1).toString();
+        if(dateOffset >= -6 && dateOffset <= 6){
+            daySelector.value = rtf.format(dateOffset, 'day');
+        }else{
+            daySelector.value = (date.toLocaleDateString('en-US', { weekday: 'long' })
+                    + "  "
+                    + date.getDate()).toString()
+                + "."
+                + (date.getMonth() + 1).toString();
+        }
+
     }
 
 
