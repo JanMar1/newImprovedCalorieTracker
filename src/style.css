@@ -147,6 +147,8 @@ input {
     border-radius: 32px;
     border: 1px solid #393939;
     padding: 2px 8px;
+    display:inline-flex;
+    align-items: center;
 }
 
 #add_button{
@@ -262,10 +264,14 @@ input {
     font: inherit;
     background-color: #303030;
     border-radius: 32px;
-    padding: 2px 8px;
+    padding:8px 16px;
     flex:1;
     margin-left: 16px;
     margin-right: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 #weight{
