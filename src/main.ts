@@ -17,7 +17,7 @@ const addButton = document.querySelector<HTMLButtonElement>('#add_button')!
 const entriesList = document.querySelector<HTMLUListElement>('#entry_list')!
 const navBar = document.querySelector<HTMLElement>('#nav_bar')!
 const settings_btns =  document.querySelector<HTMLElement>('#settings_btns')!
-const daySelector = document.getElementById('calories_day_selector') as HTMLOutputElement | null;
+const daySelector = document.getElementById('calories_day_selector') as HTMLButtonElement | null;
 const changeDay = document.getElementById('changeCurrentDay') as HTMLOutputElement | null;
 const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
@@ -29,6 +29,7 @@ input_note.addEventListener('animationend', () => {
     input_note.classList.remove('shake')
 })
 
+
 changeDay?.addEventListener('click',(event) => {
     const button = (event.target as HTMLElement).closest('button')
     if (!button) {
@@ -39,6 +40,8 @@ changeDay?.addEventListener('click',(event) => {
         dateOffset -= 1;
     }else if (button.id == "calories_step_forward"){
         dateOffset += 1;
+    }else if(button.id == "calories_day_selector"){
+        dateOffset = 0;
     }
     render()
 })
@@ -187,9 +190,9 @@ function updateDOM(){
 
     if (daySelector) {
         if(dateOffset >= -6 && dateOffset <= 6){
-            daySelector.value = rtf.format(dateOffset, 'day');
+            daySelector.textContent = rtf.format(dateOffset, 'day');
         }else{
-            daySelector.value = (date.toLocaleDateString('en-US', { weekday: 'long' })
+            daySelector.textContent = (date.toLocaleDateString('en-US', { weekday: 'long' })
                     + "  "
                     + date.getDate()).toString()
                 + "."
