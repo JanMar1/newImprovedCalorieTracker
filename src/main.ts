@@ -17,11 +17,28 @@ const addButton = document.querySelector<HTMLButtonElement>('#add_button')!
 const entriesList = document.querySelector<HTMLUListElement>('#entry_list')!
 const navBar = document.querySelector<HTMLElement>('#nav_bar')!
 const settings_btns =  document.querySelector<HTMLElement>('#settings_btns')!
+const daySelector = document.getElementById('calories_day_selector') as HTMLOutputElement | null;
+const changeDay = document.getElementById('changeCurrentDay') as HTMLOutputElement | null;
+let dateOffset: number = 0;
+
 //removes the shake effect, so it can shake again
 input_note.addEventListener('animationend', () => {
     input_note.classList.remove('shake')
 })
 
+changeDay?.addEventListener('click',(event) => {
+    const button = (event.target as HTMLElement).closest('button')
+    if (!button) {
+        return
+    }
+
+    if(button.id == "calories_step_back"){
+        dateOffset -= 1;
+    }else if (button.id == "calories_step_forward"){
+        dateOffset += 1;
+    }
+    render()
+})
 
 //delete button of single entries
 entriesList.addEventListener('click',(event) => {
@@ -89,6 +106,10 @@ addButton.addEventListener('click', () => {
         note: note
     }
 
+    input_protein.value = ""
+    input_calories.value = ""
+    input_note.value = ""
+
     entries.push(newEntry)
     saveEntries(entries)
     render()
@@ -108,6 +129,8 @@ settings_btns.addEventListener('click', (event)=>{
 
 })
 
+
+//TODO: download für PWA ermöglichen
 function exportData(){
     const text = JSON.stringify(loadEntries(),null, 2)
     const blob = new Blob([text], { type: 'application/json' })
@@ -136,8 +159,17 @@ function render(){
 function updateDOM(){
     entries = loadEntries()
     //zeigt Kcal und protein für heute an
-    const timeToday = new Date().setHours(0, 0, 0, 0)
-    entriesToday = entries.filter((entry: Entry) => entry.time >= timeToday);
+    const date = new Date();
+    date.setDate(date.getDate() + dateOffset)
+
+    //gets the current day
+    const timeToday:number = date.setHours(0, 0, 0, 0)
+    const timeTodayPlus24h:number = timeToday + 86400000
+    //offset date:
+
+    entriesToday = entries.filter((entry: Entry) => (
+        entry.time >= timeToday && entry.time < timeTodayPlus24h
+    ));
 
     const sumOfCaloriesToday: number = entriesToday.reduce(
         (sum, entry) => sum  + entry.calories, 0
@@ -147,6 +179,18 @@ function updateDOM(){
         (sum, entry) => sum  + entry.protein, 0
     );
     protein_today.textContent = sumOfProteinToday.toString();
+
+    //update day selector text
+
+    if (daySelector) {
+        daySelector.value = (date.toLocaleDateString('en-US', { weekday: 'long' })
+            + "  "
+            + date.getDate()).toString()
+            + "."
+            + (date.getMonth() + 1).toString();
+    }
+
+
 
 
     //LIST
