@@ -20,9 +20,10 @@ const settings_btns =  document.querySelector<HTMLElement>('#settings_btns')!
 const daySelector = document.getElementById('calories_day_selector') as HTMLButtonElement | null;
 const changeDay = document.getElementById('changeCurrentDay') as HTMLOutputElement | null;
 const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
-
+const deletePopup = document.getElementById('deletePopUp') as HTMLDialogElement | null;
 
 let dateOffset: number = 0;
+let deleteDialogID:string | undefined;
 
 //removes the shake effect, so it can shake again
 input_note.addEventListener('animationend', () => {
@@ -46,6 +47,25 @@ changeDay?.addEventListener('click',(event) => {
     render()
 })
 
+//delete Dialog button listener
+deletePopup?.addEventListener('click',(event) => {
+    const button = (event.target as HTMLElement).closest('button')
+    if (!button) {
+        return
+    }
+
+    if (button.id == "closeBtn"){
+        deletePopup.close();
+    }
+    else if (button.id == "deleteBtn"){
+        if (deleteDialogID == null) return
+        entries = entries.filter(e => e.id !== deleteDialogID)
+        saveEntries(entries)
+        render()
+        deletePopup.close();
+    }
+})
+
 //delete button of single entries
 entriesList.addEventListener('click',(event) => {
     const button = (event.target as HTMLElement).closest('button')
@@ -53,11 +73,13 @@ entriesList.addEventListener('click',(event) => {
         return
     }
 
+    deleteDialogID = button.dataset.id
 
-    const id = button.dataset.id
-    entries = entries.filter(e => e.id !== id)
-    saveEntries(entries)
-    render()
+    if (!deletePopup) {
+        return
+    }
+
+    deletePopup.showModal();
 })
 
 //buttons for changing the screen

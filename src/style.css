@@ -310,3 +310,41 @@ input {
     border-radius: 32px;
 }
 
+#deletePopUp{
+    color: #f3f4f6;
+    max-width: 450px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #303030;
+    border-radius: 12px;
+    padding: 16px;
+    background-color: #1d1d1d;
+}
+
+#deletePopUp p{
+    margin: 0 0 8px;
+    text-align: center;
+}
+
+
+
+#deletePopUp button{
+    text-align: center;
+    cursor: pointer;
+    margin-top: 0;
+    font: inherit;
+    background-color: #303030;
+    color: #f3f4f6;
+    border-radius: 32px;
+    border: 1px solid #393939;
+    padding: 2px 8px;
+    align-items: center;
+    flex:1;
+
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(1px);
+}
+
